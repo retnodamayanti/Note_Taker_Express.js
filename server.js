@@ -1,25 +1,3 @@
-// const express = require('express');
-// const path = require('path');
-// const api = require ('./public/assets/js/index');
-
-// const PORT = process.env.port || 3001;
-
-// const app = express();
-
-// // homepage route
-// app.get('/', (req, res) =>
-//   res.sendFile(path.join(__dirname, '/public/index.html'))
-// );
-
-// // notes.html route
-// app.get('/notes', (req, res) => {
-//     res.sendFile(path.join(__dirname, '/public/notes.html'))
-//   });
-
-// app.listen(PORT, () =>
-//   console.log(`App listening at http://localhost:${PORT} 🚀`)
-// );
-
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -27,12 +5,13 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware for parsing JSON and urlencoded form data
+// middleware 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
 
-// API Routes
+// API routes
+// GET /api/notes: read the db.json data and return as response
 app.get('/api/notes', (req, res) => {
   fs.readFile(path.join(__dirname, 'db', 'db.json'), 'utf8', (err, data) => {
     if (err) {
@@ -52,6 +31,7 @@ app.get('/api/notes', (req, res) => {
   });
 });
 
+// POST /api/notes : adding new note to db.json
 app.post('/api/notes', (req, res) => {
   const { title, text } = req.body;
   if (!title || !text) {
@@ -72,11 +52,13 @@ app.post('/api/notes', (req, res) => {
       return res.status(500).json({ error: 'Failed to parse notes data.' });
     }
 
+    // generate a unique id 
     const newNote = {
-      id: notes.length > 0 ? Math.max(...notes.map(note => note.id)) + 1 : 1,
-      title,
-      text
-    };
+        id: Date.now().toString(), 
+        title,
+        text
+      };
+      
 
     notes.push(newNote);
 
@@ -91,6 +73,7 @@ app.post('/api/notes', (req, res) => {
   });
 });
 
+// DELETE /api/notes/:id route: 
 app.delete('/api/notes/:id', (req, res) => {
   const noteId = parseInt(req.params.id);
 
@@ -121,7 +104,7 @@ app.delete('/api/notes/:id', (req, res) => {
   });
 });
 
-// HTML Routes
+// notes.html route
 app.get('/notes', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/notes.html'));
 });
@@ -130,7 +113,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
-// Start the server
+// start the server
 app.listen(PORT, () => {
     console.log(`App listening at http://localhost:${PORT} 🚀`);
   });
