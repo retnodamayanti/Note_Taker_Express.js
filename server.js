@@ -75,6 +75,7 @@ app.post('/api/notes', (req, res) => {
 
 // DELETE /api/notes/:id route: 
 app.delete('/api/notes/:id', (req, res) => {
+
   const noteId = parseInt(req.params.id);
 
   fs.readFile(path.join(__dirname, 'db', 'db.json'), 'utf8', (err, data) => {
@@ -90,8 +91,7 @@ app.delete('/api/notes/:id', (req, res) => {
       console.error(err);
       return res.status(500).json({ error: 'Failed to parse notes data.' });
     }
-
-    const updatedNotes = notes.filter(note => note.id !== noteId);
+    const updatedNotes = notes.filter(note => note.id != noteId);
 
     fs.writeFile(path.join(__dirname, 'db', 'db.json'), JSON.stringify(updatedNotes), 'utf8', err => {
       if (err) {
