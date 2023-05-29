@@ -33,13 +33,22 @@ const getNotes = () =>
     },
   });
 
-const saveNote = (note) =>
+  const saveNote = (note) =>
   fetch('/api/notes', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(note),
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error('Failed to save note.');
+    }
+    return response.json();
+  })
+  .catch((error) => {
+    console.error(error);
   });
 
 const deleteNote = (id) =>
@@ -146,7 +155,7 @@ const renderNoteList = async (notes) => {
         'text-danger',
         'delete-note'
       );
-      delBtnEl.addEventListener('click', handleNoteDelete);
+      delBtnEl.addEventListener('click', (e) => handleNoteDelete(e));
 
       liEl.append(delBtnEl);
     }
