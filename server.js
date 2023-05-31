@@ -1,3 +1,4 @@
+// Import express, fs, and path
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -11,7 +12,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // API routes
-// GET /api/notes: read the db.json data and return as response
+// GET '/api/notes' will read the db.json data and return as response
 app.get('/api/notes', (req, res) => {
   fs.readFile(path.join(__dirname, 'db', 'db.json'), 'utf8', (err, data) => {
     if (err) {
@@ -31,7 +32,7 @@ app.get('/api/notes', (req, res) => {
   });
 });
 
-// POST /api/notes : adding new note to db.json
+// POST '/api/notes' will add new note to db.json
 app.post('/api/notes', (req, res) => {
   const { title, text } = req.body;
   if (!title || !text) {
@@ -52,7 +53,7 @@ app.post('/api/notes', (req, res) => {
       return res.status(500).json({ error: 'Failed to parse notes data.' });
     }
 
-    // generate a unique id 
+    // generate a unique id for db.json data
     const newNote = {
         id: Date.now().toString(), 
         title,
