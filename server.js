@@ -73,7 +73,7 @@ app.post('/api/notes', (req, res) => {
   });
 });
 
-// DELETE /api/notes/:id route: 
+// DELETE /api/notes/:id route
 app.delete('/api/notes/:id', (req, res) => {
 
   const noteId = parseInt(req.params.id);
