@@ -2,8 +2,8 @@
 
 ## Description
 
-(Add description)
-Please visit a video demonstrating the application [here](add link).
+This application is designed to help small business owners in organizing their thoughts and tracking their tasks effectively. The application provides a user-friendly interface where users can write new notes, save them, and access their saved notes.
+Please visit the deployed application [here](https://pacific-sands-85124.herokuapp.com/).
 
 ## Table of Contents
 - [Installation](#installation)
@@ -12,13 +12,19 @@ Please visit a video demonstrating the application [here](add link).
 - [License](#license)
 
 ## Installation
-- Clone the repo on your local
-- Install the packages: run `npm i` on your terminal
-- Please run `npm run test` to run the unit test
-- Please run `node index.js` to invoke the application
+1. Clone the repository on your local
+2. To install the packages, run `npm i` on your terminal
 
 ## Usage 
+1. Once you install the packages, run `npm start` to start the application.
+2. Visit http://localhost:3001 in your browser to access the application. Please see screenshot below
+![screenshot_npm_start](./images/image-1.png)
 
+3. Click `Get Started` on the browser to visit the note taker application.
+![get_started](./images/image-2.png)
+
+4. You can start to create, save, and select notes.
+![note_taker_app](./images/image-3.png)
 ## Credit
 - Assistance from tutor 
 
