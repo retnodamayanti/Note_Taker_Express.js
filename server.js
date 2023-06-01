@@ -17,7 +17,7 @@ app.get('/api/notes', (req, res) => {
   fs.readFile(path.join(__dirname, 'db', 'db.json'), 'utf8', (err, data) => {
     if (err) {
       console.error(err);
-      return res.status(500).json({ error: 'Failed to read notes data.' });
+      return res.status(500).json({ error: 'Unable to read notes data.' });
     }
 
     let notes;
@@ -25,7 +25,7 @@ app.get('/api/notes', (req, res) => {
       notes = JSON.parse(data);
     } catch (err) {
       console.error(err);
-      return res.status(500).json({ error: 'Failed to parse notes data.' });
+      return res.status(500).json({ error: 'Unable to parse notes data.' });
     }
 
     res.json(notes);
@@ -42,7 +42,7 @@ app.post('/api/notes', (req, res) => {
   fs.readFile(path.join(__dirname, 'db', 'db.json'), 'utf8', (err, data) => {
     if (err) {
       console.error(err);
-      return res.status(500).json({ error: 'Failed to read notes data.' });
+      return res.status(500).json({ error: 'Unable to read notes data.' });
     }
 
     let notes;
@@ -50,7 +50,7 @@ app.post('/api/notes', (req, res) => {
       notes = JSON.parse(data);
     } catch (err) {
       console.error(err);
-      return res.status(500).json({ error: 'Failed to parse notes data.' });
+      return res.status(500).json({ error: 'Unable to parse notes data.' });
     }
 
     // generate a unique id for db.json data
@@ -66,7 +66,7 @@ app.post('/api/notes', (req, res) => {
     fs.writeFile(path.join(__dirname, 'db', 'db.json'), JSON.stringify(notes), 'utf8', err => {
       if (err) {
         console.error(err);
-        return res.status(500).json({ error: 'Failed to save note.' });
+        return res.status(500).json({ error: 'Unable to save note.' });
       }
 
       res.json(newNote);
@@ -79,25 +79,28 @@ app.delete('/api/notes/:id', (req, res) => {
 
   const noteId = parseInt(req.params.id);
 
+  // read existing note data
   fs.readFile(path.join(__dirname, 'db', 'db.json'), 'utf8', (err, data) => {
     if (err) {
       console.error(err);
-      return res.status(500).json({ error: 'Failed to read notes data.' });
+      return res.status(500).json({ error: 'Unable to read notes data.' });
     }
 
+    // update notes
     let notes;
     try {
       notes = JSON.parse(data);
     } catch (err) {
       console.error(err);
-      return res.status(500).json({ error: 'Failed to parse notes data.' });
+      return res.status(500).json({ error: 'Unable to parse notes data.' });
     }
     const updatedNotes = notes.filter(note => note.id != noteId);
-
+    
+    // write updated note data
     fs.writeFile(path.join(__dirname, 'db', 'db.json'), JSON.stringify(updatedNotes), 'utf8', err => {
       if (err) {
         console.error(err);
-        return res.status(500).json({ error: 'Failed to delete note.' });
+        return res.status(500).json({ error: 'Unable to delete note.' });
       }
 
       res.json({ message: 'Note deleted successfully.' });
